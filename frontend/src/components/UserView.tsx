@@ -80,7 +80,6 @@ export default function UserView({ user, links }: Props) {
             {!location?.pathname?.includes("preview") && (
               <>
                 <div className="mt-4	h-10 w-56 rounded-md bg-gray-100 " />
-                <div className="mt-4	h-10 w-56 rounded-md bg-gray-100 " />
               </>
             )}
           </div>

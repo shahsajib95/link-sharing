@@ -51,14 +51,14 @@ export default function Linkform() {
 
   const handlePlatform = (index: number, value: string) => {
     const oldLinks = [...userLinks];
-    const updatedPlatform = { ...oldLinks[index], platform: value };
+    const updatedPlatform = { ...oldLinks[index], platform: value, error: "" };
     oldLinks[index] = updatedPlatform;
     setUserLinks(oldLinks);
   };
 
   const handleLink = (index: number, value: string) => {
     const oldLinks = [...userLinks];
-    const updatedLink = { ...oldLinks[index], link: value };
+    const updatedLink = { ...oldLinks[index], link: value,  error: ""  };
     oldLinks[index] = updatedLink;
     setUserLinks(oldLinks);
   };
@@ -139,9 +139,36 @@ export default function Linkform() {
       if (!linkObj.link) {
         errorMessage = "Link cannot be empty.";
       } else if (!isValidUrl(linkObj.link)) {
-        errorMessage = "Please enter a valid URL.";
+        errorMessage = "Please enter a valid Plaform URL.";
       } else if (!linkObj.platform) {
         errorMessage = "Platform must be selected.";
+      } else {
+        // Platform-specific validation using switch
+        switch (linkObj.platform) {
+          case "Youtube":
+            if (!linkObj.link.includes("youtube.com")) {
+              errorMessage = "Please enter a valid YouTube URL.";
+            }
+            break;
+          case "Facebook":
+            if (!linkObj.link.includes("facebook.com")) {
+              errorMessage = "Please enter a valid Facebook URL.";
+            }
+            break;
+          case "Github":
+            if (!linkObj.link.includes("github.com")) {
+              errorMessage = "Please enter a valid Github URL.";
+            }
+            break;
+          case "Linkedin":
+            if (!linkObj.link.includes("linkedin.com")) {
+              errorMessage = "Please enter a valid Linkedin URL.";
+            }
+            break;
+          default:
+            errorMessage = "";
+            break;
+        }
       }
 
       // Return updated object with error message if applicable
@@ -247,7 +274,7 @@ export default function Linkform() {
                                   className="cursor-pointer font-light"
                                   onClick={() => {
                                     const removeLink = userLinks.filter(
-                                      (_: any, indx: number) => indx !== index,
+                                      (li: any) => li?.sequence !== link?.sequence,
                                     );
                                     setUserLinks(removeLink);
                                   }}
