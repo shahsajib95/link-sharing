@@ -174,10 +174,10 @@ const Profile = () => {
                   <img
                     src={URL.createObjectURL(file)}
                     alt="profileImage"
-                    className="h-auto w-full rounded-xl border"
+                    className="h-auto w-full rounded-xl border h-48 w-48"
                   />
 
-                  <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <div className="absolute inset-0  h-48 w-48 flex items-center justify-center rounded-xl bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <Camera className="text-white" size="40" />
                   </div>
                 </div>
@@ -198,7 +198,7 @@ const Profile = () => {
                       </div>
                     </div>
                   )}
-                  <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <div className="absolute inset-0 h-48 w-48 flex items-center justify-center rounded-xl bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <div className="flex flex-col items-center text-white">
                       <Image size="40" />
                       <br></br>
