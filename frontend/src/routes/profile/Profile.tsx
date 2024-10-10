@@ -174,7 +174,7 @@ const Profile = () => {
                   <img
                     src={URL.createObjectURL(file)}
                     alt="profileImage"
-                    className="h-auto w-full rounded-xl border h-48 w-48"
+                    className="rounded-xl border h-48 w-48 object-fill"
                   />
 
                   <div className="absolute inset-0  h-48 w-48 flex items-center justify-center rounded-xl bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -187,7 +187,7 @@ const Profile = () => {
                     <img
                       src={avatar || "/images/no-image.png"}
                       alt="profileImage"
-                      className="w-full rounded-xl border"
+                      className="rounded-xl border h-48 w-48 object-fill	"
                     />
                   ) : (
                     <div className="h-48 w-48 w-full rounded-xl border bg-violet-100 flex items-center justify-center">
