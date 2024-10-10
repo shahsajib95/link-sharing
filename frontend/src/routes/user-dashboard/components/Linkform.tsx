@@ -164,8 +164,6 @@ export default function Linkform() {
     });
   };
 
-
-
   const addNewLink = () => {
     const nextSequence =
       userLinks.length > 0
@@ -189,6 +187,8 @@ export default function Linkform() {
       toast.error("An Error Occured!");
     }
   }, [getUserError]);
+
+  console.log("userLinks", userLinks);
 
   if (userLaoding)
     return (
@@ -222,94 +222,89 @@ export default function Linkform() {
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
                   {userLinks?.map((link: any, index: number) => {
-                  
                     return (
-                      link.sequence && (
-                        <Draggable
-                          key={index} // Use a unique key here, replace with link.id if available
-                          draggableId={`${index}-${link?.sequence}`} // Ensure unique draggableId
-                          index={index}
-                        >
-                          {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className="my-3 mb-5 w-full rounded-xl bg-gray-50 p-3 text-gray-600"
-                            >
+                      <Draggable
+                        key={index} // Use a unique key here, replace with link.id if available
+                        draggableId={`${index}-${link?.sequence}`} // Ensure unique draggableId
+                        index={index}
+                      >
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className="my-3 mb-5 w-full rounded-xl bg-gray-50 p-3 text-gray-600"
+                          >
+                            <div>
+                              <div className="mb-2 flex justify-between text-sm">
+                                <div className="flex">
+                                  <Equal />{" "}
+                                  <span className="ms-1 font-semibold">
+                                    Link #{index + 1}
+                                  </span>
+                                </div>
+                                <p
+                                  className="cursor-pointer font-light"
+                                  onClick={() => {
+                                    const removeLink = userLinks.filter(
+                                      (_: any, indx: number) => indx !== index,
+                                    );
+                                    setUserLinks(removeLink);
+                                  }}
+                                >
+                                  Remove
+                                </p>
+                              </div>
+                              {link?.error && (
+                                <p className="text-xs text-red-500">
+                                  {link.error}*
+                                </p>
+                              )}
                               <div>
-                                <div className="mb-2 flex justify-between text-sm">
-                                  <div className="flex">
-                                    <Equal />{" "}
-                                    <span className="ms-1 font-semibold">
-                                      Link #{index + 1}
-                                    </span>
-                                  </div>
-                                  <p
-                                    className="cursor-pointer font-light"
-                                    onClick={() => {
-                                      const removeLink = userLinks.filter(
-                                        (_: any, indx: number) => indx !== index,
-                                      );
-                                      setUserLinks(removeLink);
-                                    }}
-                                  >
-                                    Remove
-                                  </p>
-                                </div>
-                                {link?.error && (
-                                  <p className="text-xs text-red-500">
-                                    {link.error}*
-                                  </p>
-                                )}
-                                <div>
-                                  <Label className="text-xs">Platform</Label>
-                                  <Select
-                                    onValueChange={(e) =>
-                                      handlePlatform(index, e)
-                                    }
-                                    defaultValue={link?.platform}
-                                  >
-                                    <SelectTrigger
-                                      icon={GetIcon(link?.platform)}
-                                    >
-                                      <SelectValue
-                                        placeholder={
-                                          link?.platform || "Select Platform"
-                                        }
-                                      />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      {platformTypes?.map((platform) => (
-                                        <SelectItem
-                                          key={platform.type}
-                                          value={platform.type}
-                                        >
-                                          <div className="flex">
-                                            <span className="ms-2">
-                                              {platform.type}
-                                            </span>
-                                          </div>
-                                        </SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
-                                </div>
-                                <div>
-                                  <Label className="text-xs">Link</Label>
-                                  <Input
-                                    icon={<Link size="15" />}
-                                    defaultValue={link.link}
-                                    onChange={(e) =>
-                                      handleLink(index, e.target.value)
-                                    }
-                                  />
-                                </div>
+                                <Label className="text-xs">Platform</Label>
+                                <Select
+                                  onValueChange={(e) =>
+                                    handlePlatform(index, e)
+                                  }
+                                  defaultValue={link?.platform}
+                                >
+                                  <SelectTrigger icon={GetIcon(link?.platform)}>
+                                    <SelectValue
+                                      placeholder={
+                                        link?.platform || "Select Platform"
+                                      }
+                                    />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {platformTypes?.map((platform) => (
+                                      <SelectItem
+                                        key={platform.type}
+                                        value={platform.type}
+                                      >
+                                        <div className="flex">
+                                          <span className="ms-2">
+                                            {platform.type}
+                                          </span>
+                                        </div>
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div>
+                                <Label className="text-xs">Link</Label>
+                                <Input
+                                  icon={<Link size="15" />}
+                                  defaultValue={link.link}
+                                  onChange={(e) =>
+                                    handleLink(index, e.target.value)
+                                  }
+                                />
                               </div>
                             </div>
-                          )}
-                        </Draggable>
-                      )
+                          </div>
+                        )}
+                      </Draggable>
                     );
                   })}
                   {provided.placeholder}
