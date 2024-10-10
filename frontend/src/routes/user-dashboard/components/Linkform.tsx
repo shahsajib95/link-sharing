@@ -249,11 +249,12 @@ export default function Linkform() {
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
                   {userLinks?.map((link: any, index: number) => {
+                    const icon = GetIcon(link?.platform)
                     return (
                       <Draggable
-                        key={index} // Use a unique key here, replace with link.id if available
+                        key={link?.sequence} // Use a unique key here, replace with link.id if available
                         draggableId={`${index}-${link?.sequence}`} // Ensure unique draggableId
-                        index={index}
+                        index={link?.sequence}
                       >
                         {(provided) => (
                           <div
@@ -276,6 +277,7 @@ export default function Linkform() {
                                     const removeLink = userLinks.filter(
                                       (li: any) => li?.sequence !== link?.sequence,
                                     );
+                                    // console.log(removeLink)
                                     setUserLinks(removeLink);
                                   }}
                                 >
@@ -295,7 +297,7 @@ export default function Linkform() {
                                   }
                                   defaultValue={link?.platform}
                                 >
-                                  <SelectTrigger icon={GetIcon(link?.platform)}>
+                                  <SelectTrigger icon={icon}>
                                     <SelectValue
                                       placeholder={
                                         link?.platform || "Select Platform"
