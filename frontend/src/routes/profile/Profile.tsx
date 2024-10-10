@@ -36,11 +36,8 @@ const profileFormSchema = z.object({
 export type ProfileFromType = z.infer<typeof profileFormSchema>;
 
 const Profile = () => {
-
-  const { links} = useAppSelector((state) => state.auth);
-  const { user} = useAppSelector((state) => state.auth.user);
-
-
+  const { links } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth.user);
 
   const {
     data,
@@ -86,7 +83,7 @@ const Profile = () => {
           token: isUser?.token,
         }),
       );
-   
+
       toast.success("Data Updated Successfully!");
     }
     if (getUserError) {
@@ -103,7 +100,7 @@ const Profile = () => {
     formData.append("lastName", value.lastName);
     formData.append("email", value.email);
     file && formData.append("avatar", file);
- 
+
     updateUser({
       data: formData,
       id: user?._id,
@@ -118,7 +115,6 @@ const Profile = () => {
     const lastName = form.watch("lastName");
     const email = form.watch("email");
 
- 
     dispatch(
       authAction.getName({
         firstName: firstName || user?.firstName,
@@ -127,7 +123,6 @@ const Profile = () => {
         avatar: { src: file || avatar, type: file ? "file" : "link" },
       }),
     );
- 
 
     // Add the specific values as dependencies to trigger on change
   }, [
@@ -143,16 +138,12 @@ const Profile = () => {
     } else {
       dispatch(authAction.getLinks(links || []));
     }
-  
   }, [user]);
-
-
 
   const avatar = user?.avatar
     ? `${import.meta.env.VITE_API_FILE}${user?.avatar}`
     : "";
-
-
+  console.log("avatar", avatar);
 
   if (userLaoding)
     return (
@@ -171,8 +162,10 @@ const Profile = () => {
         Add your details to create a personal touch to your profile.
       </small>
       <div className="my-3 mt-8 rounded-xl bg-gray-50 p-3 text-xs">
-        <div className="grid lg:grid-cols-12 md:grid-cols-12 items-center gap-6">
-          <div className="col-span-4 md:col-span-4 text-gray-500">Profile Picture</div>
+        <div className="grid items-center gap-6 md:grid-cols-12 lg:grid-cols-12">
+          <div className="col-span-4 text-gray-500 md:col-span-4">
+            Profile Picture
+          </div>
           <div className="col-span-3 md:col-span-4">
             <Label htmlFor="profileAvatar">
               {file ? (
@@ -190,11 +183,21 @@ const Profile = () => {
                 </div>
               ) : (
                 <div className="group relative w-56">
-                  <img
-                    src={avatar || "/images/no-image.png"}
-                    alt="profileImage"
-                    className="w-full rounded-xl border"
-                  />{" "}
+                  {avatar ? (
+                    <img
+                      src={avatar || "/images/no-image.png"}
+                      alt="profileImage"
+                      className="w-full rounded-xl border"
+                    />
+                  ) : (
+                    <div className="h-48 w-48 w-full rounded-xl border bg-violet-100 flex items-center justify-center">
+                      <div className="flex flex-col items-center text-primary">
+                        <Image size="40" />
+                        <br></br>
+                        <span className="text-xs">Change Image</span>
+                      </div>
+                    </div>
+                  )}
                   <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <div className="flex flex-col items-center text-white">
                       <Image size="40" />
@@ -224,7 +227,7 @@ const Profile = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
           <div className="my-5 rounded-xl bg-gray-50 p-3 text-xs">
-            <div className="grid lg:grid-cols-6 md:grid-cols-6  items-center">
+            <div className="grid items-center md:grid-cols-6  lg:grid-cols-6">
               <span className="col-span-2 text-xs text-gray-500">
                 First Name*
               </span>{" "}
@@ -238,7 +241,7 @@ const Profile = () => {
                 />
               </div>
             </div>
-            <div className="grid lg:grid-cols-6 md:grid-cols-6 items-center">
+            <div className="grid items-center md:grid-cols-6 lg:grid-cols-6">
               <span className="col-span-2 text-xs text-gray-500">
                 Last Name*
               </span>{" "}
@@ -252,7 +255,7 @@ const Profile = () => {
                 />
               </div>
             </div>
-            <div className="grid lg:grid-cols-6 md:grid-cols-6  items-center">
+            <div className="grid items-center md:grid-cols-6  lg:grid-cols-6">
               <span className="col-span-2 text-xs text-gray-500">Email</span>{" "}
               <div className="col-span-4">
                 <FormInput
@@ -268,10 +271,10 @@ const Profile = () => {
           </div>
           <div className="mt-8 flex justify-end border-t-2 border-gray-100 ">
             {!isLoading ? (
-              <Button className="my-4 w-full lg:w-auto ms:w-auto">Save</Button>
+              <Button className="ms:w-auto my-4 w-full lg:w-auto">Save</Button>
             ) : (
               <Button disabled className="my-4">
-                <Icons.buttonLoader className="animate-spin stroke-card w-full lg:w-auto md:w-auto" />
+                <Icons.buttonLoader className="w-full animate-spin stroke-card md:w-auto lg:w-auto" />
                 Loading...
               </Button>
             )}
