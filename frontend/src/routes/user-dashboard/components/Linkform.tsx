@@ -324,7 +324,7 @@ export default function Linkform() {
                                 <Label className="text-xs">Link</Label>
                                 <Input
                                   icon={<Link size="15" />}
-                                  defaultValue={link.link}
+                                  defaultValue={link?.link}
                                   onChange={(e) =>
                                     handleLink(index, e.target.value)
                                   }
